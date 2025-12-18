@@ -2,6 +2,9 @@ package com.lemxvos.continuum.service;
 
 import com.lemxvos.continuum.entity.User;
 import com.lemxvos.continuum.repository.UserRepository;
+
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,7 +30,7 @@ public class UserService {
         repository.deleteByEmail(email);
     }
 
-    public void updateUserByEmail(Integer id, User user) {
+    public void updateUserByEmail(UUID id, User user) {
         User userEntity = repository
             .findById(id)
             .orElseThrow(() -> new RuntimeException("User not found!"));

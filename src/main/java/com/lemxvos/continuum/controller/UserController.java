@@ -3,6 +3,9 @@ package com.lemxvos.continuum.controller;
 import com.lemxvos.continuum.entity.User;
 import com.lemxvos.continuum.service.UserService;
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +46,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<Void> updateOneUser(
-        @RequestParam Integer id,
+        @RequestParam UUID id,
         @RequestBody User user
     ) {
         userService.updateUserByEmail(id, user);

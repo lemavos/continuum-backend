@@ -17,36 +17,44 @@ public class UserService {
     }
 
     public void saveUser(User user) {
+        if (repository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
+
         repository.saveAndFlush(user);
     }
 
     public User searchUserByEmail(String email) {
         return repository
-            .findByEmail(email)
-            .orElseThrow(() -> new RuntimeException("Email not found!"));
+                .findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Email not found"));
     }
 
     public void deleteUserByEmail(String email) {
         repository.deleteByEmail(email);
     }
 
-    public void updateUserByEmail(UUID id, User user) {
+    public void updateUserById(UUID id, User user) {
         User userEntity = repository
-            .findById(id)
-            .orElseThrow(() -> new RuntimeException("User not found!"));
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        User updatedUser = User.builder()
-            .email(
-                user.getEmail() != null
-                    ? user.getEmail()
-                    : userEntity.getEmail()
-            )
-            .name(
-                user.getName() != null ? user.getName() : userEntity.getName()
-            )
-            .id(userEntity.getId())
-            .build();
+        // Se trocar email, valida
+        if (
+            user.getEmail() != null &&
+            !user.getEmail().equals(userEntity.getEmail()) &&
+            repository.existsByEmail(user.getEmail())
+        ) {
+            throw new IllegalArgumentException("Email já cadastrado");
+        }
 
-        repository.saveAndFlush(updatedUser);
+        userEntity.setEmail(
+            user.getEmail() != null ? user.getEmail() : userEntity.getEmail()
+        );
+        userEntity.setName(
+            user.getName() != null ? user.getName() : userEntity.getName()
+        );
+
+        repository.saveAndFlush(userEntity);
     }
 }

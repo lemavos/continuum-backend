@@ -11,4 +11,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Transactional
     void deleteByEmail(String email);
+    
+    boolean existsByEmail(String email);
+
 }

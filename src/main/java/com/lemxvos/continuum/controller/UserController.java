@@ -22,29 +22,30 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<Void> createUser(@RequestBody User user) {
-        userService.saveUser(user);
+    public ResponseEntity<Void> create(@RequestBody User user) {
+        userService.create(user);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<User> searchOneUserByEmail(
-        @RequestParam String email
+    public ResponseEntity<User> read(
+        @RequestParam UUID id
     ) {
-        return ResponseEntity.ok(userService.searchUserByEmail(email));
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> deleteOneUserByEmail(
-        @RequestParam String email
-    ) {
-        userService.deleteUserByEmail(email);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userService.read(id));
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateOneUser(@RequestParam UUID id, @RequestBody User user) {
-        userService.updateUserById(id, user);
+    public ResponseEntity<Void> update(@RequestParam UUID id, 
+                                        @RequestBody User user) {
+        userService.update(id, user);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> delete(
+        @RequestParam UUID id
+    ) {
+        userService.delete(id);
         return ResponseEntity.ok().build();
     }
 

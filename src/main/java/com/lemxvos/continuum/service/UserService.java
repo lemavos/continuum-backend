@@ -1,9 +1,8 @@
 package com.lemxvos.continuum.service;
 
+import com.lemxvos.continuum.dto.UserDTO;
 import com.lemxvos.continuum.entity.User;
 import com.lemxvos.continuum.repository.UserRepository;
-
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -16,21 +15,22 @@ public class UserService {
         this.repository = repository;
     }
 
-    public void create(User user) {
+    public String create(User user) {
         if (repository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already registred");
         }
 
-        repository.saveAndFlush(user);
+        User savedUser = repository.save(user);
+        return "User created with ID: " + savedUser.getId();
+
     }
 
-    public User read(UUID id) {
-        return repository
-                .findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public UserDTO read(long id) {
+        User user = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        return UserDTO.from(user);
     }
 
-    public void update(UUID id, User user) {
+    public String update(long id, User user) {
         User userEntity = repository
                 .findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -42,18 +42,22 @@ public class UserService {
             throw new IllegalArgumentException("Email already registred");
         }
 
-        
         userEntity.setEmail(
                 user.getEmail() != null ? user.getEmail() : userEntity.getEmail()
         );
         userEntity.setName(
                 user.getName() != null ? user.getName() : userEntity.getName()
         );
+        userEntity.setPassword(
+                user.getPassword() != null ? user.getPassword() : userEntity.getPassword()
+        );
 
         repository.saveAndFlush(userEntity);
+
+        return "User: " + read(id) + "Updated";
     }
 
-    public void delete(UUID id) {
+    public void delete(long id) {
         repository.deleteById(id);
     }
 

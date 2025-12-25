@@ -1,6 +1,13 @@
 package com.lemxvos.continuum.dto;
 
-import java.util.UUID;
+import com.lemxvos.continuum.entity.User;
 
-public record UserDTO(UUID id, String name, String email) {}
+public record UserDTO(long id, String name, String email) {
 
+    public static UserDTO from(User user) {
+        return new UserDTO(user.getId(),
+                user.getName(),
+                user.getEmail()
+        );
+    }
+}

@@ -1,3 +1,15 @@
+# ⚠️ Project moved
+
+This repository is no longer maintained.
+
+The project has been migrated to the official Lemnova repository:
+
+👉 https://github.com/lemnova/continuum-backend
+
+Future updates, issues and releases will happen there
+
+---
+
 ## Concept
 Continuum is an app that provides customizable dashboards to help users visualize their progress and performance over time.  
 It uses charts and activity heatmaps to make personal evolution measurable and easy to understand.

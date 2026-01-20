@@ -4,7 +4,7 @@ This repository is no longer maintained.
 
 The project has been migrated to the official Lemnova repository:
 
-👉 https://github.com/lemnova/continuum-backend
+👉 https://github.com/lemnova/continuum-api
 
 Future updates, issues and releases will happen there
 
